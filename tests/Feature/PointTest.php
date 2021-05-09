@@ -87,7 +87,7 @@ class PointTest extends TestCase
         $response->assertStatus(403);
         // END: test compute distance failed (no key)
 
-        // START: test compute distance success
+        // START: test compute distance success (arccosine)
         $response = $this->json('POST', '/api/points/compute-distances', [
             'points'    => $points,
             'key'       => $api_keys[0]
@@ -95,6 +95,17 @@ class PointTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertEquals('OK', $response['status']);
-        // END: test compute distance success
+        // END: test compute distance success (arccosine)
+
+        // START: test compute distance success (haversine)
+        $response = $this->json('POST', '/api/points/compute-distances', [
+            'points'    => $points,
+            'formula'   => 'haversine',
+            'key'       => $api_keys[0]
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertEquals('OK', $response['status']);
+        // END: test compute distance success (haversine)
     }
 }

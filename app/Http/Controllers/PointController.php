@@ -15,6 +15,7 @@ class PointController extends Controller
         ]);
 
         $points = $request->points;
+        $formula = $request->formula;
         
         // START: Pair the points from the array
         $pairs = [];
@@ -45,7 +46,7 @@ class PointController extends Controller
                     ]);
 
                     // compute the distance between 2 points here
-                    $pair->distance = $pair->getDistance();
+                    $pair->distance = $pair->getDistance($formula);
 
                     $pairs[] = $pair;
                 }
