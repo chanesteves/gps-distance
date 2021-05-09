@@ -40,6 +40,8 @@ class Pair extends Model
                 ];
                 // END: Haversine Formula
 
+                break;
+
             default:
                 // START: Spherical Law of Cosines
                 $degrees = rad2deg(
