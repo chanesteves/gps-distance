@@ -18,8 +18,18 @@ class PointController extends Controller
         
         // START: Pair the points from the array
         $pairs = [];
+        $count1 = 0;
         foreach($points as $p1) {
+            $count1++;
+            $count2 = 0;
+
             foreach($points as $p2) {
+                $count2++;
+
+                if ($count1 >= $count2) {
+                    continue;
+                }
+
                 if (isset($p1['lat']) && isset($p1['lng']) && isset($p2['lat']) && isset($p2['lng']) && ($p1['lat'] != $p2['lat'] || $p1['lng'] != $p2['lng'])) {
                     $pair = new Pair([
                         "point1"    => [
