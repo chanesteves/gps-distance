@@ -15,7 +15,7 @@ class Pair extends Model
         'point1', 'point2'
     ];
 
-    public function getDistance($formula = 'arccosine') {
+    public function getDistance($formula) {
         $point1 = $this->point1;
         $point2 = $this->point2;
 
