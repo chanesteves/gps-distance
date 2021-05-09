@@ -22,7 +22,26 @@ class Pair extends Model
         $distance = [];
 
         switch ($formula) {
-            case "haversine":
+            case "arccosine":
+                // START: Spherical Law of Cosines
+                $degrees = rad2deg(
+                    acos(
+                                (sin(deg2rad($point1['lat'])) * sin(deg2rad($point2['lat']))) 
+                            +   (cos(deg2rad($point1['lat'])) * cos(deg2rad($point2['lat'])) * cos(deg2rad($point1['lng'] - $point2['lng'])))
+                        )
+                );
+
+                $distance = [
+                    "f"     => "arccosine",
+                    "m"     => $degrees * 111133.84, // 1 degree = 111133.84 m, based on the average diameter of the Earth (12,735,000 m)
+                    "km"    => $degrees * 111.13384, // 1 degree = 111.13384 km, based on the average diameter of the Earth (12,735 km)
+                    "mi"    => $degrees * 69.05482 // 1 degree = 69.05482 miles, based on the average diameter of the Earth (7,913.1 miles)
+                ];
+                // END: Spherical Law of Cosines
+
+                break;
+
+            default:
                 // START: Haversine Formula
                 $earth_radius = 6371;  // earth radius in km
 
@@ -39,25 +58,6 @@ class Pair extends Model
                     "mi"    => $earth_radius * $c * 0.621371192 // 1 km = 0.621371192 mile
                 ];
                 // END: Haversine Formula
-
-                break;
-
-            default:
-                // START: Spherical Law of Cosines
-                $degrees = rad2deg(
-                    acos(
-                                (sin(deg2rad($point1['lat'])) * sin(deg2rad($point2['lat']))) 
-                            +   (cos(deg2rad($point1['lat'])) * cos(deg2rad($point2['lat'])) * cos(deg2rad($point1['lng'] - $point2['lng'])))
-                        )
-                );
-
-                $distance = [
-                    "f"     => "arccosine",
-                    "m"     => $degrees * 111133.84, // 1 degree = 111133.84 m, based on the average diameter of the Earth (12,735,000 m)
-                    "km"    => $degrees * 111.13384, // 1 degree = 111.13384 km, based on the average diameter of the Earth (12,735 km)
-                    "mi"    => $degrees * 69.05482 // 1 degree = 69.05482 miles, based on the average diameter of the Earth (7,913.1 miles)
-                ];
-                // END: Spherical Law of Cosines
 
                 break;
         }
